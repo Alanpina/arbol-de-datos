@@ -12,13 +12,12 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
-    static $password;
-
+$factory->define(App\Node::class, function (Faker\Generator $faker){
+    $maxId = DB::table('nodes')->max('id');
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'name' 		=> $faker->name,
+        'parent' 	=> rand(1, $maxId),
+        'created_at' =>  \Carbon\Carbon::now(), # \Datetime()
+        'updated_at' => \Carbon\Carbon::now(),
     ];
 });
